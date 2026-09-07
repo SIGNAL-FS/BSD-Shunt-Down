@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bishan Depot (BSD) Control Tower - Procedure Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Top Navigation Menu */
+        .top-menu {
+            background-color: #0d1b2a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+
+        .nav-menu li a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .nav-menu li a:hover {
+            background-color: #ff6b35;
+            transform: translateY(-2px);
+        }
+
+        .nav-menu li a.shutdown:hover {
+            background-color: #e63946;
+        }
+
+        .nav-menu li a.powerup:hover {
+            background-color: #06a77d;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Cards Container */
+        .cards-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            padding: 25px;
+            color: white;
+            text-align: center;
+        }
+
+        .shutdown-card .card-header {
+            background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+        }
+
+        .powerup-card .card-header {
+            background: linear-gradient(135deg, #06a77d 0%, #047857 100%);
+        }
+
+        .card-header .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .card-header h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .card-header .subtitle {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-body ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-body ul li {
+            padding: 8px 0;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-body ul li::before {
+            content: "✓";
+            color: #06a77d;
+            font-weight: bold;
+        }
+
+        .shutdown-card .card-body ul li::before {
+            color: #e63946;
+        }
+
+        .open-btn {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .shutdown-card .open-btn {
+            background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+        }
+
+        .powerup-card .open-btn {
+            background: linear-gradient(135deg, #06a77d 0%, #047857 100%);
+        }
+
+        .open-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Info Section */
+        .info-section {
+            max-width: 1100px;
+            margin: 20px auto 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-section h3 {
+            margin-bottom: 15px;
+            color: #ffd166;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .info-section ul li::before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #ffd166;
+        }
+
+        /* Footer */
+        footer {
+            background: #0d1b2a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Menu -->
+    <nav class="top-menu">
+        <div class="menu-container">
+            <div class="logo">
+                <span class="logo-icon">BSD</span>
+                <span>Control Tower Procedures</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">🏠 Home</a></li>
+                <li><a href="BSD Tower Shunt down A.html" class="shutdown">⏹ Shutdown Procedure</a></li>
+                <li><a href="BSD Tower Power Up.html" class="powerup">⚡ Power Up Procedure</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>🚆 Bishan Depot Control Tower</h1>
+        <p>Power Maintenance Works — Standard Operating Procedures for safe shutdown and restoration of BSD Control Tower equipment.</p>
+    </section>
+
+    <!-- Procedure Cards -->
+    <div class="cards-container">
+
+        <!-- Shutdown Card -->
+        <div class="card shutdown-card">
+            <div class="card-header">
+                <div class="icon">⏹️</div>
+                <h2>Shutdown Procedure</h2>
+                <div class="subtitle">BISHAN DEPOT (BSD) CONTROL TOWER</div>
+            </div>
+            <div class="card-body">
+                <p>Follow this checklist during Power Maintenance works to safely shut down all CBTC and Legacy equipment. Equipment will be powered from UPS during the shutdown period.</p>
+                <ul>
+                    <li>CBTC Equipment Shutdown (Steps 1–4)</li>
+                    <li>Legacy Equipment Shutdown (Steps 5–9)</li>
+                    <li>Prioritize Level 3 first, then L4 and L5</li>
+                    <li>Photo documentation required at each step</li>
+                </ul>
+                <a href="BSD Tower Shunt down A.html" class="open-btn">OPEN SHUTDOWN CHECKLIST →</a>
+            </div>
+        </div>
+
+        <!-- Power Up Card -->
+        <div class="card powerup-card">
+            <div class="card-header">
+                <div class="icon">⚡</div>
+                <h2>Power Up Procedure</h2>
+                <div class="subtitle">REVERSE SEQUENCE RESTORATION</div>
+            </div>
+            <div class="card-body">
+                <p>Restore power to BSD Control Tower equipment in the reverse order of shutdown to prevent damage from power surges and ensure stable restoration before first train launch.</p>
+                <ul>
+                    <li>Main Power & PLC Equipment (Steps 1–2)</li>
+                    <li>Legacy Equipment Power Up (Steps 3–6)</li>
+                    <li>CBTC Equipment Boot Sequence (Steps 7–12)</li>
+                    <li>NMS link verification integrated</li>
+                </ul>
+                <a href="BSD Tower Power Up.html" class="open-btn">OPEN POWER UP CHECKLIST →</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <h3>⚠ Important Safety Reminders</h3>
+        <ul>
+            <li>DO NOT take the lift in the control tower close to the shutdown or power restoration period — you may get stuck inside.</li>
+            <li>Ensure minimum 2 manpower on standby for equipment verification.</li>
+            <li>Verify all spare parts (fuses, PLC modules, PSU, relays) are readily available before starting.</li>
+            <li>Always coordinate with Power Team (POW staff) before switching equipment.</li>
+            <li>Priority: Always restore Level 3 first, then L4 and L5.</li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>📅 Document Date: September 07, 2026 | 🏢 Bishan Depot (BSD) Control Tower | 🚇 Power Maintenance Works SOP</p>
+    </footer>
+
+</body>
+</html>
