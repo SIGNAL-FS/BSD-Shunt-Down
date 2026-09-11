@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bishan Depot (BSD) Shutdown Procedure Checklist</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --border: #dee2e6;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f4f6f9;
+            font-size: 15px;
+            padding-bottom: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            margin: 0;
+        }
+
+        /* Top Action Bar - 2x2 grid for mobile */
+        .action-bar {
+            background: #fff;
+            padding: 10px;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 10px 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-height: 40px;
+            width: 100%;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-sm { padding: 8px 10px; font-size: 12px; min-height: 36px; }
+
+        /* Headers */
+        .header {
+            text-align: center;
+            margin: 10px 0;
+            padding: 15px 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .header h1 { color: var(--primary); margin: 0; font-size: 18px; line-height: 1.3; }
+        .header h2 { color: var(--dark); margin: 5px 0 0; font-size: 14px; font-weight: normal; }
+
+        .card {
+            background: white;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        h3 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 8px;
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        h4 {
+            background: var(--light);
+            padding: 10px;
+            border-left: 4px solid var(--primary);
+            margin: 15px 0 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Tables - Mobile friendly with horizontal scroll */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 13px;
+            min-width: 280px;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px 6px;
+            text-align: left;
+        }
+        th { background-color: var(--light); font-weight: 600; font-size: 12px; }
+        tr:nth-child(even) { background-color: #fcfcfc; }
+        td input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Lists */
+        ul, ol { padding-left: 20px; margin: 8px 0; }
+        li { margin-bottom: 6px; font-size: 14px; }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .checklist-item input[type="checkbox"] {
+            margin-top: 3px;
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            cursor: pointer;
+        }
+
+        /* Warnings & Notes */
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 12px 0;
+            font-weight: 500;
+            font-size: 13px;
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Photo Actions - Stack buttons for mobile */
+        .photo-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+            align-items: center;
+        }
+        .photo-actions .btn {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        .photo-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .photo-preview img {
+            width: calc(50% - 4px);
+            height: auto;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+        }
+        .status-saved {
+            color: var(--success);
+            font-weight: bold;
+            font-size: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Documentation - Single column for mobile */
+        .sign-off {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .sign-off-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .sign-off-item label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+        .sign-off-item input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .sign-off-item input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2);
+        }
+
+        /* Concluding notes */
+        .conclusion-note {
+            background: #d4edda;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #155724;
+            font-size: 14px;
+            margin: 15px 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Print Styles - FIXED TO SHOW PHOTOS */
+        @media print {
+            .action-bar, .photo-actions, .no-print { display: none !important; }
+            body { background: white; padding: 10px; font-size: 12px; }
+            
+            .card { 
+                box-shadow: none; 
+                border: 1px solid #ddd; 
+                break-inside: avoid; 
+                page-break-inside: avoid;
+            }
+            .header { box-shadow: none; }
+            
+            /* Ensure photos are visible in PDF */
+            .photo-preview { 
+                display: flex !important; 
+                margin-top: 10px;
+            }
+            .photo-preview img {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            /* Ensure background colors print correctly */
+            .warning, .conclusion-note, h4 {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Action Bar -->
+    <div class="action-bar no-print">
+        <button class="btn btn-primary" onclick="saveToPDF()">📄 Save to PDF</button>
+        <button class="btn btn-success" onclick="downloadAllPhotos()">💾 Download Photos</button>
+        <button class="btn btn-secondary" onclick="saveProgress()">💾 Save Progress</button>
+        <button class="btn btn-danger" onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Bishan Depot (BSD) Shutdown Procedure Checklist</h1>
+            <h2>BISHAN DEPOT (BSD) CONTROL TOWER<br>Power Maintenance Works</h2>
+        </div>
+
+        <!-- Purpose -->
+        <div class="card">
+            <h3>PURPOSE</h3>
+            <ul>
+                <li>During Power Maintenance works, BSD Control Tower might experience a shutdown for certain periods</li>
+                <li>All equipment will draw power from UPS (Uninterrupted Power Supply)</li>
+                <li>When restoring power back to main supply, Tower may experience surge in current</li>
+                <li>This will result in certain equipment/track circuits to fail</li>
+                <li>Must be well-prepared to act fast to restore equipment before first train launch</li>
+            </ul>
+            <p style="font-size:13px;"><strong>Note:</strong> The steps listed in this checklist are specifically for BSD Control Tower</p>
+        </div>
+
+        <!-- Preparation Spares -->
+        <div class="card">
+            <h3>PREPARATION BEFORE WORKS - SPARES</h3>
+            <p style="font-size:14px;">Ensure the following spares are topped up before the shutdown:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 35px;">✓</th>
+                            <th>Item</th>
+                            <th>Location/Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>3A fuse for location case</td><td></td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>8A fuse for location case</td><td></td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>Different fuse types for SER</td><td></td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>Filament lamp for signal light</td><td></td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>Legacy PSU</td><td></td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>PLC modules</td><td></td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>CBTC Enable Relay for Control Tower</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Preparation Work & Precautions -->
+        <div class="card">
+            <h3>PREPARATION WORK</h3>
+            <ul>
+                <li>Confirm the work schedule with Power team beforehand</li>
+                <li>Ensure minimum 2 manpower for standby</li>
+                <li>Equipment is on L3, L4, and L5 – sufficient to split if necessary</li>
+                <li><strong>PRIORITY:</strong> Always restore/shutdown L3 first</li>
+            </ul>
+
+            <h3>PRECAUTIONS DURING WORK</h3>
+            <div class="warning">
+                ⚠️ <strong>WARNING:</strong> DO NOT take the lift in the control tower close to the shutdown period mentioned by the POW staff. Might potentially be stuck inside when power goes out.
+                <br><br>
+                Ensure that the POW staff keep you informed prior to the shutdown.
+            </div>
+        </div>
+
+        <!-- Shutdown Sequence -->
+        <div class="card">
+            <h3>SHUTDOWN SEQUENCE - OVERALL STEPS</h3>
+            <p style="font-size:14px;"><strong>Sequence:</strong> Start with L3 first, then move onto L4 and L5</p>
+            <p style="font-size:14px;"><strong>Overall Shutdown Order:</strong></p>
+            <ol>
+                <li>CBTC Equipment (Steps 1–4)</li>
+                <li>Legacy Equipment (Steps 5–9)</li>
+            </ol>
+        </div>
+
+        <!-- CBTC EQUIPMENT SHUTDOWN -->
+        <div class="card">
+            <h3>CBTC EQUIPMENT SHUTDOWN</h3>
+            
+            <h4>STEP #1 — Switch off SRS 1 / SRS 2 / DR Server PC & Diag Server PC (Remote via NMS), then Switch off CB</h4>
+            <p style="font-size:14px;"><strong>Part A: Remote Shutdown via NMS</strong></p>
+            <ul>
+                <li>📍 <strong>Level 3 (L3):</strong> Switch off <strong>SRS 1</strong>, <strong>SRS 2</strong>, and <strong>DR Server PC</strong> remotely from NMS</li>
+                <li>📍 <strong>Level 4 (L4):</strong> Switch off <strong>Diag Server PC</strong> remotely from NMS</li>
+                <li>🔶 <strong>Verification:</strong> Check indication light turns <strong>steady Orange</strong> on each server before proceeding to power off.</li>
+            </ul>
+            <p style="font-size:14px;"><strong>Part B: Switch off CB (Circuit Breaker)</strong></p>
+            <p style="font-size:14px;">After confirming all servers are shut down remotely, physically switch off the CB located at the back top of the following racks:</p>
+            <ul>
+                <li>📍 <strong>ATS/DCS Rack:</strong> Switch off CB at back top of rack</li>
+                <li>📍 <strong>Diag Rack:</strong> Switch off CB at back top of rack</li>
+            </ul>
+            <div class="warning">
+                ⚠️ <strong>IMPORTANT:</strong> Ensure all servers are fully shut down via NMS BEFORE switching off the CB. Do NOT switch off CB while servers are still running.
+            </div>
+            
+            <p style="font-size:13px;"><em>📷 NMS Shutdown Photo:</em></p>
+            <div class="photo-actions" data-photo-id="step1_nms">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step1_nms"></div>
+
+            <p style="font-size:13px;"><em>📷 CB at Back Top of Rack Photo:</em></p>
+            <div class="photo-actions" data-photo-id="step1_cb">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step1_cb"></div>
+
+            <h4>STEP #2 — Switch off LAN Switch 1 and LAN Switch 2</h4>
+            <div class="photo-actions" data-photo-id="step2">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step2"></div>
+
+            <h4>STEP #3 — Switch off PLC Rack Links (All Levels)</h4>
+            <p style="font-size:14px;">Turn off the PLC rack links on each level:</p>
+            <ul>
+                <li>📍 <strong>Level 3 (L3):</strong> PLC Rack 1 and PLC Rack 2</li>
+                <li>📍 <strong>Level 4 (L4):</strong> PLC Rack 3 and PLC Rack 4</li>
+                <li>📍 <strong>Level 5 (L5):</strong> PLC Rack 5 and PLC Rack 6</li>
+            </ul>
+            <div class="photo-actions" data-photo-id="step3">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step3"></div>
+
+            <h4>STEP #4 — Move to PDP Rack and Switch Off CB</h4>
+            <p style="font-size:14px;"><strong>TAKE PICTURE</strong> of the original configuration (which breakers are on/off)</p>
+            <div class="photo-actions" data-photo-id="step4_before">
+                <label class="btn btn-primary btn-sm">📷 Upload (BEFORE)<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera (BEFORE)<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step4_before"></div>
+
+            <p style="font-size:14px;">Switch off ALL circuit breakers (CB) one by one</p>
+            <div class="photo-actions" data-photo-id="step4_after">
+                <label class="btn btn-primary btn-sm">📷 Upload (AFTER)<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera (AFTER)<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step4_after"></div>
+
+            <p class="conclusion-note">✓ This concludes the switching-off of the CBTC components.</p>
+        </div>
+
+        <!-- LEGACY EQUIPMENT SHUTDOWN -->
+        <div class="card">
+            <h3>LEGACY EQUIPMENT SHUTDOWN</h3>
+
+            <h4>STEP #5 — Move to the AC/DC Power Section</h4>
+            <p style="font-size:14px;">Switch off in this order:</p>
+            <ol>
+                <li>#1 (240V A.C. SECTION)</li>
+                <li>#2 (MAIN INCOMER)</li>
+            </ol>
+
+            <h4>STEP #6 — In the 240V A.C. SECTION, TAKE PICTURE of original configuration of the MCBs</h4>
+            <div class="photo-actions" data-photo-id="step6_before">
+                <label class="btn btn-primary btn-sm">📷 Upload (BEFORE)<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera (BEFORE)<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step6_before"></div>
+
+            <p style="font-size:14px;">Switch off the breakers from smallest to biggest:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 35px;">✓</th>
+                            <th>Order</th>
+                            <th>MCB</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>1</td><td>MCB13</td><td>2.5A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>2</td><td>MCB15</td><td>5A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>3</td><td>MCB14</td><td>5A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>4</td><td>MCB11</td><td>6A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>5</td><td>MCB10</td><td>6A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>6</td><td>MCB12</td><td>6A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>7</td><td>MCB5</td><td>10A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>8</td><td>MCB4</td><td>10A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>9</td><td>MCB8</td><td>30A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>10</td><td>MCB2</td><td>30A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>11</td><td>MCB3</td><td>30A</td></tr>
+                        <tr><td><input type="checkbox" class="save-state"></td><td>12</td><td>MCB9</td><td>30A</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="photo-actions" data-photo-id="step6_after">
+                <label class="btn btn-primary btn-sm">📷 Upload (AFTER)<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera (AFTER)<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step6_after"></div>
+
+            <h4>STEP #7 — Move to the MAIN INCOMER Section</h4>
+            <p style="font-size:14px;">Turn off the breaker</p>
+            <div class="photo-actions" data-photo-id="step7">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step7"></div>
+
+            <h4>STEP #8 — Switch off the MJ80 Point Machine Power Switchboard (415V)</h4>
+            <div class="photo-actions" data-photo-id="step8">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step8"></div>
+
+            <h4>FINAL STEP: STEP #9 — Switch off the 415V Switchboard for CBTC and Legacy Equipment (located beside the PDP panel)</h4>
+            <div class="photo-actions" data-photo-id="step9">
+                <label class="btn btn-primary btn-sm">📷 Upload<input type="file" hidden accept="image/*" onchange="handlePhoto(this)"></label>
+                <label class="btn btn-secondary btn-sm">📸 Camera<input type="file" hidden accept="image/*" capture="environment" onchange="handlePhoto(this)"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto(this)">Clear</button>
+                <span class="status-saved" style="display:none;">✓ Saved</span>
+            </div>
+            <div class="photo-preview" data-preview-id="step9"></div>
+
+            <p class="conclusion-note">* This concludes the switching off of equipment on Level 3.</p>
+        </div>
+
+        <!-- Completion Checklist -->
+        <div class="card">
+            <h3>COMPLETION CHECKLIST</h3>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>All CBTC equipment (Steps 1–4) has been shut down</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>All Legacy equipment (Steps 5–9) has been shut down</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>All equipment on L3 has been shut down</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>All equipment on L4 has been shut down (if applicable)</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>All equipment on L5 has been shut down (if applicable)</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>All photos have been taken for reference</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>POW staff has been notified of completion</span></div>
+            <div class="checklist-item"><input type="checkbox" class="save-state"> <span>Team is on standby for power restoration</span></div>
+        </div>
+
+        <!-- Documentation -->
+        <div class="card">
+            <h3>DOCUMENTATION</h3>
+            <div class="sign-off">
+                <div class="sign-off-item">
+                    <label>Prepared by:</label>
+                    <input type="text" class="save-state" placeholder="Name">
+                </div>
+                <div class="sign-off-item">
+                    <label>Date:</label>
+                    <input type="date" class="save-state">
+                </div>
+                <div class="sign-off-item">
+                    <label>Verified by:</label>
+                    <input type="text" class="save-state" placeholder="Name">
+                </div>
+                <div class="sign-off-item">
+                    <label>Date:</label>
+                    <input type="date" class="save-state">
+                </div>
+                <div class="sign-off-item">
+                    <label>Power Team Contact:</label>
+                    <input type="text" class="save-state" placeholder="Name/Number">
+                </div>
+                <div class="sign-off-item">
+                    <label>Time:</label>
+                    <input type="time" class="save-state">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        const STORAGE_KEY_CHECKLIST = 'bsd_checklist_state';
+        const STORAGE_KEY_PHOTOS = 'bsd_checklist_photos';
+
+        function saveProgress() {
+            const state = {};
+            document.querySelectorAll('.save-state').forEach((el, index) => {
+                if (el.type === 'checkbox') {
+                    state[`check_${index}`] = el.checked;
+                } else {
+                    state[`input_${index}`] = el.value;
+                }
+            });
+            localStorage.setItem(STORAGE_KEY_CHECKLIST, JSON.stringify(state));
+            alert('Progress saved successfully!');
+        }
+
+        function loadProgress() {
+            const state = JSON.parse(localStorage.getItem(STORAGE_KEY_CHECKLIST) || '{}');
+            document.querySelectorAll('.save-state').forEach((el, index) => {
+                if (el.type === 'checkbox' && state[`check_${index}`] !== undefined) {
+                    el.checked = state[`check_${index}`];
+                } else if (el.type !== 'checkbox' && state[`input_${index}`] !== undefined) {
+                    el.value = state[`input_${index}`];
+                }
+            });
+            loadPhotos();
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all progress and photos? This cannot be undone.')) {
+                localStorage.removeItem(STORAGE_KEY_CHECKLIST);
+                localStorage.removeItem(STORAGE_KEY_PHOTOS);
+                location.reload();
+            }
+        }
+
+        // --- Photo Handling ---
+        function handlePhoto(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const actionDiv = input.closest('.photo-actions');
+            const photoId = actionDiv.getAttribute('data-photo-id');
+            const previewDiv = document.querySelector(`.photo-preview[data-preview-id="${photoId}"]`);
+            const statusSpan = actionDiv.querySelector('.status-saved');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                compressImage(e.target.result, 1024, function(compressedData) {
+                    let photos = JSON.parse(localStorage.getItem(STORAGE_KEY_PHOTOS) || '{}');
+                    if (!photos[photoId]) photos[photoId] = [];
+                    photos[photoId].push(compressedData);
+                    localStorage.setItem(STORAGE_KEY_PHOTOS, JSON.stringify(photos));
+
+                    const img = document.createElement('img');
+                    img.src = compressedData;
+                    previewDiv.appendChild(img);
+                    
+                    statusSpan.style.display = 'inline';
+                    setTimeout(() => { statusSpan.style.display = 'none'; }, 2000);
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function compressImage(dataUrl, maxSize, callback) {
+            const img = new Image();
+            img.src = dataUrl;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxSize) { height *= maxSize / width; width = maxSize; }
+                } else {
+                    if (height > maxSize) { width *= maxSize / height; height = maxSize; }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                callback(canvas.toDataURL('image/jpeg', 0.7));
+            };
+        }
+
+        function clearPhoto(btn) {
+            const actionDiv = btn.closest('.photo-actions');
+            const photoId = actionDiv.getAttribute('data-photo-id');
+            const previewDiv = document.querySelector(`.photo-preview[data-preview-id="${photoId}"]`);
+            
+            previewDiv.innerHTML = '';
+            let photos = JSON.parse(localStorage.getItem(STORAGE_KEY_PHOTOS) || '{}');
+            delete photos[photoId];
+            localStorage.setItem(STORAGE_KEY_PHOTOS, JSON.stringify(photos));
+        }
+
+        function loadPhotos() {
+            const photos = JSON.parse(localStorage.getItem(STORAGE_KEY_PHOTOS) || '{}');
+            for (const [id, dataUrls] of Object.entries(photos)) {
+                const previewDiv = document.querySelector(`.photo-preview[data-preview-id="${id}"]`);
+                if (previewDiv) {
+                    previewDiv.innerHTML = '';
+                    dataUrls.forEach(url => {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        previewDiv.appendChild(img);
+                    });
+                }
+            }
+        }
+
+        function saveToPDF() {
+            window.print();
+        }
+
+        function downloadAllPhotos() {
+            const photos = JSON.parse(localStorage.getItem(STORAGE_KEY_PHOTOS) || '{}');
+            const allPhotos = Object.entries(photos).flatMap(([id, urls]) => urls.map((url, idx) => ({ id, idx, url })));
+            
+            if (allPhotos.length === 0) {
+                alert('No photos saved to download.');
+                return;
+            }
+
+            allPhotos.forEach((photo, index) => {
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.href = photo.url;
+                    link.download = `BSD_Checklist_${photo.id}_${photo.idx + 1}.jpg`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, index * 500);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>
