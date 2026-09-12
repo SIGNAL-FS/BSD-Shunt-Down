@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bishan Depot (BSD) Power Up Procedure Checklist</title>
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        /* Top Action Bar - Sticky */
+        .action-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+            padding: 12px 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .action-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn-save { background-color: #28a745; }
+        .btn-save:hover { background-color: #218838; }
+        .btn-clear { background-color: #dc3545; }
+        .btn-clear:hover { background-color: #c82333; }
+        .btn-pdf { background-color: #17a2b8; }
+        .btn-pdf:hover { background-color: #138496; }
+        .action-btn:active { transform: scale(0.97); }
+        
+        .save-status {
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            font-size: 0.75em;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            padding: 20px 15px 10px;
+            background: white;
+        }
+        .header h1 {
+            color: #0056b3;
+            margin: 0;
+            font-size: 1.3em;
+        }
+        .header h2 {
+            color: #555;
+            font-size: 1em;
+            margin: 5px 0;
+        }
+        .header p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+        }
+        
+        .section {
+            background: #fff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section h3 {
+            color: #0056b3;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-left: 5px solid #ffeeba;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+            border-radius: 4px;
+        }
+        .priority {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 10px;
+            border-left: 5px solid #bee5eb;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+            border-radius: 4px;
+        }
+        ul, ol { padding-left: 20px; margin: 8px 0; }
+        li { margin-bottom: 8px; font-size: 0.95em; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px 4px;
+            text-align: left;
+        }
+        th {
+            background-color: #0056b3;
+            color: white;
+        }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        
+        .photo-upload-box {
+            margin: 12px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px dashed #adb5bd;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .upload-label {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .upload-label:active { background-color: #004494; }
+        .photo-preview {
+            display: none;
+            max-width: 100%;
+            max-height: 250px;
+            margin: 12px auto 0;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .remove-photo-btn {
+            display: none;
+            margin: 8px auto 0;
+            padding: 6px 14px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        
+        .sign-off {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .sign-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .sign-box label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+        .sign-box label:first-child { margin-top: 0; }
+        .sign-box input[type="text"],
+        .sign-box input[type="date"],
+        .sign-box input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .radio-group { margin-top: 8px; }
+        .radio-group label {
+            display: inline-block;
+            font-weight: normal;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        input[type="checkbox"] {
+            transform: scale(1.3);
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .toast.show { opacity: 1; }
+        .toast.success { background: #28a745; }
+        .toast.error { background: #dc3545; }
+        .toast.info { background: #17a2b8; }
+        
+        @media print {
+            .action-bar, .upload-label, .remove-photo-btn, .toast { display: none !important; }
+            body { max-width: 100%; padding: 0; }
+            .section { box-shadow: none; page-break-inside: avoid; border: 1px solid #ddd; }
+            .photo-upload-box { border: none; background: none; padding: 10px 0; }
+            .photo-preview { display: block !important; max-height: 400px; }
+            .header { border-bottom: 2px solid #000; }
+            h1, h2, h3 { color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP ACTION BAR -->
+    <div class="action-bar">
+        <button class="action-btn btn-save" onclick="saveProgress()">💾 Save</button>
+        <button class="action-btn btn-clear" onclick="clearData()">🗑️ Clear</button>
+        <button class="action-btn btn-pdf" onclick="saveAsPDF()">📄 PDF</button>
+        <div class="save-status" id="saveStatus">Auto-saved: Never</div>
+    </div>
+
+    <div class="header">
+        <h1>BISHAN DEPOT (BSD) CONTROL TOWER</h1>
+        <h2>Power Up Procedure Checklist (Reverse Sequence)</h2>
+        <p><strong>Power Restoration Works</strong></p>
+    </div>
+
+    <div class="section">
+        <h3>PURPOSE</h3>
+        <p>During Power Maintenance works, BSD Control Tower experiences a shutdown. When restoring power back to the main supply, the Tower may experience a <strong>surge in current</strong>. This will result in certain equipment/track circuits to fail.</p>
+        <p><strong>CRITICAL:</strong> Equipment must be powered up in the <strong>REVERSE ORDER</strong> of the shutdown sequence to prevent damage from power surges and ensure stable restoration before the first train launch.</p>
+    </div>
+
+    <div class="section">
+        <h3>PREPARATION BEFORE POWER UP</h3>
+        <ul>
+            <li><input type="checkbox" class="chk"> Confirm with Power team that maintenance is complete and power is ready to be restored.</li>
+            <li><input type="checkbox" class="chk"> Ensure minimum 2 manpower are on standby for equipment verification.</li>
+            <li><input type="checkbox" class="chk"> Verify all spare parts are readily available in case of surge damage:
+                <ul>
+                    <li>3A & 8A fuses for location case</li>
+                    <li>Different fuse types for SER</li>
+                    <li>Filament lamps for signal lights</li>
+                    <li>Legacy PSU, PLC modules, CBTC Enable Relay</li>
+                </ul>
+            </li>
+        </ul>
+        <div class="warning">⚠️ PRECAUTION: DO NOT take the lift in the control tower close to the power restoration period. You might potentially be stuck inside when power is switched. Ensure POW staff keep you informed prior to energizing.</div>
+    </div>
+
+    <div class="section">
+        <h3>POWER UP SEQUENCE - OVERALL STEPS</h3>
+        <div class="priority">PRIORITY: Always restore L3 first, then move onto L4 and L5. <br>
+        OVERALL POWER UP ORDER: Final 415V Switchboard ➔ PLC Racks ➔ Legacy Equipment ➔ CBTC Equipment (SRS/LAN/Diag/DR)</div>
+        <p><em>Note: Sequence is strictly reversed from the Shutdown Procedure, with specific NMS link checks integrated into the CBTC boot sequence.</em></p>
+    </div>
+
+    <div class="section">
+        <h3>MAIN POWER & PLC EQUIPMENT POWER UP</h3>
+        
+        <p><strong>STEP #1 (Reverse of Final Step #11):</strong> Switch ON the 415V Switchboard for CBTC and Legacy Equipment (located beside the PDP panel).</p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview1', 'photo1')">
+                📷 Upload / Take Photo: 415V Switchboard
+            </label>
+            <img id="preview1" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove1" onclick="removePhoto('preview1', 'photo1', 'remove1')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #2 (Reverse of Step #10):</strong> Move to the PLC rack. Turn ON ALL the links.</p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview2', 'photo2')">
+                📷 Upload / Take Photo: PLC Rack Links
+            </label>
+            <img id="preview2" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove2" onclick="removePhoto('preview2', 'photo2', 'remove2')">✕ Remove Photo</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>LEGACY EQUIPMENT POWER UP</h3>
+        
+        <p><strong>STEP #3 (Reverse of Step #6):</strong> Switch ON the MJ80 Point Machine Power Switchboard (415V).</p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview3', 'photo3')">
+                📷 Upload / Take Photo: MJ80 Point Machine
+            </label>
+            <img id="preview3" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove3" onclick="removePhoto('preview3', 'photo3', 'remove3')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #4 (Reverse of Step #7):</strong> Move to the AC/DC power section. Switch ON in this <strong>REVERSE</strong> order:</p>
+        <ol>
+            <li><strong>#2 (MAIN INCOMER)</strong></li>
+            <li><strong>#1 (240V A.C. SECTION)</strong></li>
+        </ol>
+
+        <p><strong>STEP #5 (Reverse of Step #9):</strong> Move to the MAIN INCOMER section. Turn ON the breaker.</p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview5', 'photo5')">
+                📷 Upload / Take Photo: Main Incomer Breaker
+            </label>
+            <img id="preview5" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove5" onclick="removePhoto('preview5', 'photo5', 'remove5')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #6 (Reverse of Step #8):</strong> In the 240V A.C. SECTION, refer to the original configuration photo. Switch ON the breakers from <strong>BIGGEST to SMALLEST</strong>:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>✓</th>
+                    <th>Order</th>
+                    <th>MCB</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><input type="checkbox" class="chk"></td><td>1</td><td>MCB9</td><td>30A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>2</td><td>MCB3</td><td>30A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>3</td><td>MCB2</td><td>30A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>4</td><td>MCB8</td><td>30A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>5</td><td>MCB4</td><td>10A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>6</td><td>MCB5</td><td>10A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>7</td><td>MCB12</td><td>6A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>8</td><td>MCB10</td><td>6A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>9</td><td>MCB11</td><td>6A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>10</td><td>MCB14</td><td>5A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>11</td><td>MCB15</td><td>5A</td></tr>
+                <tr><td><input type="checkbox" class="chk"></td><td>12</td><td>MCB13</td><td>2.5A</td></tr>
+            </tbody>
+        </table>
+        <p><em>Decreasing Amp Order</em></p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview6', 'photo6')">
+                📷 Upload / Take Photo: 240V AC Section MCBs
+            </label>
+            <img id="preview6" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove6" onclick="removePhoto('preview6', 'photo6', 'remove6')">✕ Remove Photo</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>CBTC EQUIPMENT POWER UP (ATS/DCS RACK)</h3>
+        
+        <p><strong>STEP #7 (Reverse of Step #5):</strong> Move to the PDP panel. Refer to the "BEFORE" configuration photo taken during shutdown. Turn ON ALL breakers one by one to their original states.</p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview7', 'photo7')">
+                📷 Upload / Take Photo: PDP Panel Breakers
+            </label>
+            <img id="preview7" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove7" onclick="removePhoto('preview7', 'photo7', 'remove7')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #8 (SRS1 & LAN 1 Initialization):</strong> Power ON the <strong>SRS1 PC</strong> and <strong>LAN Switch 1</strong>.</p>
+        <ul>
+            <li><input type="checkbox" class="chk"> SRS1 PC Powered ON</li>
+            <li><input type="checkbox" class="chk"> LAN Switch 1 Powered ON</li>
+        </ul>
+        <div class="priority">⚠️ CRITICAL CHECK: Check with NMS (Network Management System) to confirm the link is UP before proceeding to the next step.</div>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview8', 'photo8')">
+                📷 Upload / Take Photo: SRS1 PC & LAN Switch 1
+            </label>
+            <img id="preview8" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove8" onclick="removePhoto('preview8', 'photo8', 'remove8')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #9 (SRS2 & LAN 2 Initialization):</strong> Power ON the <strong>SRS2 PC</strong> and <strong>LAN Switch 2</strong>.</p>
+        <ul>
+            <li><input type="checkbox" class="chk"> SRS2 PC Powered ON</li>
+            <li><input type="checkbox" class="chk"> LAN Switch 2 Powered ON</li>
+        </ul>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview9', 'photo9')">
+                📷 Upload / Take Photo: SRS2 PC & LAN Switch 2
+            </label>
+            <img id="preview9" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove9" onclick="removePhoto('preview9', 'photo9', 'remove9')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #10 (Diag PC):</strong> Power ON the <strong>Diag PC</strong>.</p>
+        <ul>
+            <li><input type="checkbox" class="chk"> Diag PC Powered ON</li>
+        </ul>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview10', 'photo10')">
+                📷 Upload / Take Photo: Diag PC
+            </label>
+            <img id="preview10" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove10" onclick="removePhoto('preview10', 'photo10', 'remove10')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #11 (Reverse of Step #3 - DR PC):</strong> Power ON the <strong>DR PC</strong>.</p>
+        <ul>
+            <li><input type="checkbox" class="chk"> DR PC Powered ON</li>
+        </ul>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview11', 'photo11')">
+                📷 Upload / Take Photo: DR PC
+            </label>
+            <img id="preview11" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove11" onclick="removePhoto('preview11', 'photo11', 'remove11')">✕ Remove Photo</button>
+        </div>
+
+        <p><strong>STEP #12 (Reverse of Step #1 & #2 - Final Boot):</strong> ATS/DCS Rack: Turn ON any remaining PCs / Initiate full System Boot-up using the switches at the back.</p>
+        <div class="photo-upload-box">
+            <label class="upload-label">
+                <input type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this, 'preview12', 'photo12')">
+                📷 Upload / Take Photo: ATS/DCS Rack Final Boot
+            </label>
+            <img id="preview12" class="photo-preview" alt="Preview">
+            <button class="remove-photo-btn" id="remove12" onclick="removePhoto('preview12', 'photo12', 'remove12')">✕ Remove Photo</button>
+        </div>
+        
+        <p><em>* This concludes the switching ON of equipment on Level 3.</em></p>
+    </div>
+
+    <div class="section">
+        <h3>POST POWER-UP VERIFICATION & COMPLETION CHECKLIST</h3>
+        <ul>
+            <li><input type="checkbox" class="chk"> All equipment on L3 has been powered up and verified (Repeat for L4 & L5 if applicable).</li>
+            <li><input type="checkbox" class="chk"> NMS confirms all network links are UP and stable.</li>
+            <li><input type="checkbox" class="chk"> Checked for any track circuit failures or equipment faults caused by power surge.</li>
+            <li><input type="checkbox" class="chk"> Replaced any blown fuses or failed modules using standby spares.</li>
+            <li><input type="checkbox" class="chk"> Verified CBTC and Legacy systems are fully operational and communicating.</li>
+            <li><input type="checkbox" class="chk"> POW staff / Control Center has been notified of successful power restoration.</li>
+            <li><input type="checkbox" class="chk"> Tower is cleared and ready for first train launch.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>DOCUMENTATION & SIGN-OFF</h3>
+        <div class="sign-off">
+            <div class="sign-box">
+                <label>Prepared by:</label>
+                <input type="text" class="txt" placeholder="Enter Name">
+                <label>Date:</label>
+                <input type="date" class="txt">
+            </div>
+            <div class="sign-box">
+                <label>Verified by:</label>
+                <input type="text" class="txt" placeholder="Enter Name">
+                <label>Date:</label>
+                <input type="date" class="txt">
+            </div>
+            <div class="sign-box">
+                <label>Power Team Contact:</label>
+                <input type="text" class="txt" placeholder="Enter Name / Contact">
+                <label>Time of Restoration:</label>
+                <input type="time" class="txt">
+            </div>
+            <div class="sign-box">
+                <label>System Status:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="sys-status" class="rad" value="Normal"> Normal</label>
+                    <label><input type="radio" name="sys-status" class="rad" value="Degraded"> Degraded</label>
+                    <label><input type="radio" name="sys-status" class="rad" value="Faults"> Faults Present</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const STORAGE_KEY = 'bsd_powerup_checklist';
+        const MAX_IMG_WIDTH = 800;
+        const IMG_QUALITY = 0.6;
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            setTimeout(() => { toast.className = 'toast'; }, 2500);
+        }
+
+        // Compress image before saving to localStorage
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > MAX_IMG_WIDTH) {
+                        height = Math.round((height * MAX_IMG_WIDTH) / width);
+                        width = MAX_IMG_WIDTH;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    callback(canvas.toDataURL('image/jpeg', IMG_QUALITY));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle photo upload
+        function handlePhoto(input, previewId, photoKey) {
+            if (input.files && input.files[0]) {
+                compressImage(input.files[0], function(compressedData) {
+                    const preview = document.getElementById(previewId);
+                    preview.src = compressedData;
+                    preview.style.display = 'block';
+                    document.getElementById('remove' + previewId.replace('preview', '')).style.display = 'inline-block';
+                    
+                    // Save to localStorage
+                    try {
+                        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                        data.photos = data.photos || {};
+                        data.photos[photoKey] = compressedData;
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                        updateSaveStatus();
+                    } catch (e) {
+                        showToast('Storage full! Photo shown but not saved.', 'error');
+                    }
+                });
+            }
+        }
+
+        // Remove photo
+        function removePhoto(previewId, photoKey, removeBtnId) {
+            document.getElementById(previewId).src = '';
+            document.getElementById(previewId).style.display = 'none';
+            document.getElementById(removeBtnId).style.display = 'none';
+            
+            const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (data.photos) delete data.photos[photoKey];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            showToast('Photo removed', 'info');
+        }
+
+        // Save all progress
+        function saveProgress() {
+            const data = {
+                checkboxes: [],
+                texts: [],
+                radios: {},
+                photos: {},
+                savedAt: new Date().toISOString()
+            };
+            
+            // Save checkboxes
+            document.querySelectorAll('.chk').forEach((chk, idx) => {
+                data.checkboxes[idx] = chk.checked;
+            });
+            
+            // Save text inputs
+            document.querySelectorAll('.txt').forEach((txt, idx) => {
+                data.texts[idx] = txt.value;
+            });
+            
+            // Save radio buttons
+            document.querySelectorAll('.rad').forEach(rad => {
+                if (rad.checked) data.radios[rad.name] = rad.value;
+            });
+            
+            // Save photos
+            for (let i = 1; i <= 12; i++) {
+                const preview = document.getElementById('preview' + i);
+                if (preview && preview.src && preview.style.display === 'block') {
+                    data.photos['photo' + i] = preview.src;
+                }
+            }
+            
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                updateSaveStatus();
+                showToast('✓ Progress saved!', 'success');
+            } catch (e) {
+                showToast('⚠️ Storage full! Try removing some photos.', 'error');
+            }
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+            
+            try {
+                const data = JSON.parse(saved);
+                
+                // Restore checkboxes
+                if (data.checkboxes) {
+                    document.querySelectorAll('.chk').forEach((chk, idx) => {
+                        if (data.checkboxes[idx] !== undefined) chk.checked = data.checkboxes[idx];
+                    });
+                }
+                
+                // Restore text inputs
+                if (data.texts) {
+                    document.querySelectorAll('.txt').forEach((txt, idx) => {
+                        if (data.texts[idx] !== undefined) txt.value = data.texts[idx];
+                    });
+                }
+                
+                // Restore radios
+                if (data.radios) {
+                    Object.keys(data.radios).forEach(name => {
+                        const rad = document.querySelector(`input[name="${name}"][value="${data.radios[name]}"]`);
+                        if (rad) rad.checked = true;
+                    });
+                }
+                
+                // Restore photos
+                if (data.photos) {
+                    Object.keys(data.photos).forEach(key => {
+                        const num = key.replace('photo', '');
+                        const preview = document.getElementById('preview' + num);
+                        if (preview) {
+                            preview.src = data.photos[key];
+                            preview.style.display = 'block';
+                            const removeBtn = document.getElementById('remove' + num);
+                            if (removeBtn) removeBtn.style.display = 'inline-block';
+                        }
+                    });
+                }
+                
+                updateSaveStatus(data.savedAt);
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+        }
+
+        // Clear all data
+        function clearData() {
+            if (!confirm('⚠️ Clear ALL progress?\n\nThis will remove all checkboxes, photos, and text entries. This cannot be undone.')) {
+                return;
+            }
+            
+            localStorage.removeItem(STORAGE_KEY);
+            
+            // Reset checkboxes
+            document.querySelectorAll('.chk').forEach(chk => chk.checked = false);
+            
+            // Reset text inputs
+            document.querySelectorAll('.txt').forEach(txt => txt.value = '');
+            
+            // Reset radios
+            document.querySelectorAll('.rad').forEach(rad => rad.checked = false);
+            
+            // Reset photos
+            for (let i = 1; i <= 12; i++) {
+                const preview = document.getElementById('preview' + i);
+                if (preview) {
+                    preview.src = '';
+                    preview.style.display = 'none';
+                }
+                const removeBtn = document.getElementById('remove' + i);
+                if (removeBtn) removeBtn.style.display = 'none';
+            }
+            
+            // Reset file inputs
+            document.querySelectorAll('input[type="file"]').forEach(f => f.value = '');
+            
+            updateSaveStatus();
+            showToast('🗑️ All data cleared', 'info');
+        }
+
+        // Save as PDF
+        function saveAsPDF() {
+            saveProgress();
+            setTimeout(() => { window.print(); }, 300);
+        }
+
+        // Update save status display
+        function updateSaveStatus(savedAt) {
+            const status = document.getElementById('saveStatus');
+            if (savedAt) {
+                const date = new Date(savedAt);
+                status.textContent = 'Last saved: ' + date.toLocaleString();
+            } else {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        if (data.savedAt) {
+                            const date = new Date(data.savedAt);
+                            status.textContent = 'Last saved: ' + date.toLocaleString();
+                            return;
+                        }
+                    } catch(e) {}
+                }
+                status.textContent = 'Auto-saved: Never';
+            }
+        }
+
+        // Auto-save on changes (debounced)
+        let autoSaveTimer;
+        function scheduleAutoSave() {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(saveProgress, 1500);
+        }
+
+        // Attach auto-save listeners
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('chk') || 
+                e.target.classList.contains('txt') || 
+                e.target.classList.contains('rad')) {
+                scheduleAutoSave();
+            }
+        });
+        
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('txt')) {
+                scheduleAutoSave();
+            }
+        });
+
+        // Load on page load
+        window.addEventListener('load', loadProgress);
+        
+        // Save before leaving
+        window.addEventListener('beforeunload', function() {
+            saveProgress();
+        });
+    </script>
+
+</body>
+</html>
